@@ -30,6 +30,7 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="sk">
+        <Head />
         <body>
           <Main />
           <NextScript />
