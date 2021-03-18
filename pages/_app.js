@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { wrapper } from '../redux/store/store'
 
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { darkTheme, lightTheme } from '../styles/Themes'
 import { THEMES } from '../constants/themes-names.js'
 
@@ -39,13 +39,41 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+const Page = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`
+
+const WIDTHS = {
+  LEFT: {
+    PC: '250px',
+    MOB: '100%'
+  },
+  FEED: {
+    PC: '600px',
+    MOB: '100%'
+  }
+}
+
+const PartnersPanel = styled.div`
+  width: ${WIDTHS.LEFT.PC};
+  height: 100%;
+`
+
 function App({ Component, pageProps }) {
   const theme = useSelector(({ theme }) => theme.theme)
 
   return (
     <ThemeProvider theme={theme === THEMES.DARK ? darkTheme : lightTheme}>
       <GlobalStyle />
-      <Component {...pageProps} />
+      <Page>
+        <PartnersPanel>ss</PartnersPanel>
+        <Component {...pageProps} />
+      </Page>
     </ThemeProvider>
   )
 }
