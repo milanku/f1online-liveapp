@@ -5,6 +5,19 @@ import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { darkTheme, lightTheme } from '../styles/Themes'
 import { THEMES } from '../constants/themes-names.js'
 
+import './index.css'
+
+const WIDTHS = {
+  LEFT: {
+    PC: '250px',
+    MOB: '100%'
+  },
+  FEED: {
+    PC: '600px',
+    MOB: '100%'
+  }
+}
+
 const GlobalStyle = createGlobalStyle`
     *,
   input,
@@ -28,41 +41,23 @@ const GlobalStyle = createGlobalStyle`
 
   #__next {
     height: 100%;
+    width: 100%;
     // min-height: calc(100% - 60px);
     // padding-bottom: 60px;
     // position: relative;
 
-    // display: flex;
-    // flex-direction: column;
-    // align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     background-color: ${props => props.theme.PAGE_BACK_COLOR}
   }
 `
 
 const Page = styled.div`
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-`
-
-const WIDTHS = {
-  LEFT: {
-    PC: '250px',
-    MOB: '100%'
-  },
-  FEED: {
-    PC: '600px',
-    MOB: '100%'
-  }
-}
-
-const PartnersPanel = styled.div`
-  width: ${WIDTHS.LEFT.PC};
+  width: calc(100% - ${WIDTHS.LEFT.PC});
   height: 100%;
 `
+
 
 function App({ Component, pageProps }) {
   const theme = useSelector(({ theme }) => theme.theme)
@@ -70,10 +65,7 @@ function App({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme === THEMES.DARK ? darkTheme : lightTheme}>
       <GlobalStyle />
-      <Page>
-        <PartnersPanel>ss</PartnersPanel>
         <Component {...pageProps} />
-      </Page>
     </ThemeProvider>
   )
 }

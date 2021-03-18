@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { usePageVisibility } from 'react-page-visibility'
-import onMobile from "../../utils/onMobile";
+import onMobile from '../../utils/onMobile'
 
 import FeedContent from './FeedContent'
+import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher'
 
 const FeedContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: blue;
 `
 
 const Container = styled.div`
@@ -45,6 +45,11 @@ const ButtonsRow = styled.div`
   padding: 8px 10px;
   height: 21px;
   box-shadow: -4px 4px 8px -8px rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
   &:after {
     content: '';
@@ -208,23 +213,20 @@ function Feed(props) {
   //if (!state.isLoading) console.log(state);
   return (
     <>
-      {!state.isLoading && (
+      {/* {!state.isLoading && (
         <img style={{ width: '100%' }} src={state.adsData.acf.partner_car} />
-      )}
-      <Container>
+      )} */}
+      <FeedContainer>
         {/* <PartnerStripe state={state} /> */}
 
         <ButtonsRow>
           {hasEnded ? <span>Live sa skončil</span> : <LiveIcon> Live</LiveIcon>}
-          <ChatButton onClick={chatButtonPressed} isOpened={chatOpened}>
-            {' '}
-            CHAT
-          </ChatButton>
+          <ThemeSwitcher />
         </ButtonsRow>
         <LiveContainer id="scrollerContainer">
           <FeedContent isVisible={isVisible} {...props} state={state} />
         </LiveContainer>
-      </Container>
+      </FeedContainer>
       {chatOpened ? chat : ''}
       <CloseButton onClick={chatButtonPressed} isOpened={chatOpened} />
     </>

@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 import FeedContentItem from './FeedContentItem'
 import Filler from '../Filler'
-// import TrackVisibility from "react-on-screen";
+import TrackVisibility from 'react-on-screen'
 // import ReactGA from "react-ga";
 import {
   fetchLiveNewsArchive,
@@ -154,19 +154,18 @@ function FeedContent({ isVisible, startTime, endTime, adsID, state }) {
       }
       // pickedIndex = Math.floor(Math.random() * partnerMessages.length);
 
-      return (
-        <TrackVisibility style={{ width: '100%' }} partialVisibility once>
-          <InLivePartnerMessage
-            onClick={targetLink => repCli(adsData.title.rendered, targetLink)}
-            onImpression={(targetIndex, targetLink) =>
-              repImp(adsData.title.rendered, targetIndex, targetLink)
-            }
-            message={partnerMessages[pickedIndex]}
-            index={pickedIndex}
-            {...adsData.acf}
-          />
-        </TrackVisibility>
-      )
+      return null
+      // <TrackVisibility style={{ width: '100%' }} partialVisibility once>
+      //   <InLivePartnerMessage
+      //     onClick={targetLink => repCli(adsData.title.rendered, targetLink)}
+      //     onImpression={(targetIndex, targetLink) =>
+      //       repImp(adsData.title.rendered, targetIndex, targetLink)
+      //     }
+      //     message={partnerMessages[pickedIndex]}
+      //     index={pickedIndex}
+      //     {...adsData.acf}
+      //   />
+      // </TrackVisibility>
     }
     return null
   }
@@ -174,7 +173,7 @@ function FeedContent({ isVisible, startTime, endTime, adsID, state }) {
   return (
     <InfiniteScroll
       dataLength={news.length}
-      //next={fetchMore}
+      next={fetchMore}
       hasMore={hasMore}
       height="100%"
       endMessage={
@@ -194,10 +193,10 @@ function FeedContent({ isVisible, startTime, endTime, adsID, state }) {
     >
       <div id="innerDataBlock">
         {news.map((item, index) => (
-          <>
+          <div key={item.id}>
             <FeedContentItem key={item.id} post={item} />
             <div key={item.id + 1000000}>{adsData && injectAd(item)}</div>
-          </>
+          </div>
         ))}
         {isLoading ? (
           Loader()

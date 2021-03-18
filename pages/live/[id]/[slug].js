@@ -1,11 +1,123 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
 import { END } from 'redux-saga'
 import { wrapper } from '../../../redux/store/store'
 import { URLS } from '../../../redux/apis/urls'
+import onMobile from '../../../utils/onMobile'
 
-function LivePage(props) {
-  console.log(props)
-  return <div>LVE</div>
+import Feed from '../../../components/Feed'
+import Chat from '../../../components/Chat'
+import LiveBottomButtons from '../../../components/LiveBottomButtons'
+
+import styled from 'styled-components'
+
+const WIDTHS = {
+  LEFT: {
+    PC: '250px',
+    MOB: '100%'
+  },
+  FEED: {
+    PC: '600px',
+    MOB: '100%'
+  },
+  BOTTOM_ROW_HEIGHT: '60px'
+}
+
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`
+
+const TopRow = styled.div`
+  height: calc(100% - ${WIDTHS.BOTTOM_ROW_HEIGHT});
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+  @media only screen and (min-width: 1024px) {
+    height: 100%;
+  }
+`
+
+const BottomRow = styled.div`
+  position: relative;
+  height: ${WIDTHS.BOTTOM_ROW_HEIGHT};
+
+  @media only screen and (min-width: 1024px) {
+    display: none;
+  }
+`
+
+const PartnersPanel = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: ${props => (props.isPicked ? '0' : '100%')};
+  @media only screen and (min-width: 1024px) {
+    width: ${WIDTHS.LEFT.PC};
+    height: 100%;
+  }
+`
+
+const FeedContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: ${props => (props.isPicked ? '0' : '100%')};
+  @media only screen and (min-width: 1024px) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 55%;
+    height: 100%;
+  }
+`
+
+const ChatContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: ${props => (props.isPicked ? '0' : '100%')};
+  height: 100%;
+  
+  @media only screen and (min-width: 1024px) {
+    position: absolute;
+    left: 55%;
+    top: 0;
+    width: 45%;
+    height: 100%;
+  }
+`
+
+function LivePage({ postData }) {
+  const [picked, setPicked] = useState(1)
+
+  console.log(postData)
+  const { acf } = postData
+  return (
+    <Container>
+      <TopRow>
+        <PartnersPanel isPicked={picked === 0}>ss</PartnersPanel>
+        <FeedContainer isPicked={picked === 1}>
+          <Feed
+            startTime={acf.start_time.replace(' ', 'T')} //to match ISO format for subsequent saga requestss
+            endTime={acf.end_time.replace(' ', 'T')}
+            adsID={acf.reklamy && acf.reklamy !== '' ? acf.reklamy : null}
+          />
+        </FeedContainer>
+        <ChatContainer isPicked={picked === 2}>
+          <Chat isOpened={true} />
+        </ChatContainer>
+      </TopRow>
+      <BottomRow picked={picked}>
+        {onMobile() && (
+          <LiveBottomButtons onSitePicked={index => setPicked(index)} />
+        )}
+      </BottomRow>
+    </Container>
+  )
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
