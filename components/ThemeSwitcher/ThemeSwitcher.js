@@ -13,14 +13,6 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: center;
 
-  @media only screen and (min-width: 1024px) {
-    width: 973px;
-    margin: 20px 0;
-  }
-
-  @media only screen and (min-width: 1280px) {
-    width: 1032px;
-  }
   a {
     display: inline-block;
   }

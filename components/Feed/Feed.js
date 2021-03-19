@@ -13,27 +13,12 @@ const FeedContainer = styled.div`
   height: 100%;
 `
 
-const Container = styled.div`
-  border: 1px solid ${props => props.theme.BASIC_LINE_COLOR};
-
-  z-index: 4;
-  /*  height: calc(100vh - 60px);
-
-  @media only screen and (min-width: 1024px) {
-    height: calc(100vh - 80px);
-  }
-
-  .infinite-scroll-component__outerdiv {
-    height: calc(100% - 37px);
-  }*/
-`
-
 const LiveContainer = styled.div`
   height: calc(100vh - 60px);
   z-index: 4;
 
   @media only screen and (min-width: 1024px) {
-    height: calc(100vh - 80px);
+    height: calc(100% - 37px);
   }
 
   .infinite-scroll-component__outerdiv {

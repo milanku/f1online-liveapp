@@ -7,6 +7,7 @@ import onMobile from '../../../utils/onMobile'
 import Feed from '../../../components/Feed'
 import Chat from '../../../components/Chat'
 import LiveBottomButtons from '../../../components/LiveBottomButtons'
+import fontawesomeSubset from 'fontawesome-subset'
 
 import styled from 'styled-components'
 
@@ -16,10 +17,10 @@ const WIDTHS = {
     MOB: '100%'
   },
   FEED: {
-    PC: '600px',
+    PC: '65%',
     MOB: '100%'
   },
-  BOTTOM_ROW_HEIGHT: '60px'
+  BOTTOM_ROW_HEIGHT: '50px'
 }
 
 const Container = styled.div`
@@ -57,6 +58,7 @@ const PartnersPanel = styled.div`
   left: ${props => (props.isPicked ? '0' : '100%')};
   @media only screen and (min-width: 1024px) {
     width: ${WIDTHS.LEFT.PC};
+    left: 0;
     height: 100%;
   }
 `
@@ -68,9 +70,9 @@ const FeedContainer = styled.div`
   left: ${props => (props.isPicked ? '0' : '100%')};
   @media only screen and (min-width: 1024px) {
     position: absolute;
-    left: 0;
+    left: ${WIDTHS.LEFT.PC};
     top: 0;
-    width: 55%;
+    width: calc(${WIDTHS.FEED.PC} - ${WIDTHS.LEFT.PC});
     height: 100%;
   }
 `
@@ -81,12 +83,12 @@ const ChatContainer = styled.div`
   top: 0;
   left: ${props => (props.isPicked ? '0' : '100%')};
   height: 100%;
-  
+
   @media only screen and (min-width: 1024px) {
     position: absolute;
-    left: 55%;
+    left: ${WIDTHS.FEED.PC};
     top: 0;
-    width: 45%;
+    width: calc(100% - ${WIDTHS.FEED.PC});
     height: 100%;
   }
 `
@@ -94,7 +96,7 @@ const ChatContainer = styled.div`
 function LivePage({ postData }) {
   const [picked, setPicked] = useState(1)
 
-  console.log(postData)
+  // console.log(postData)
   const { acf } = postData
   return (
     <Container>
@@ -113,7 +115,10 @@ function LivePage({ postData }) {
       </TopRow>
       <BottomRow picked={picked}>
         {onMobile() && (
-          <LiveBottomButtons onSitePicked={index => setPicked(index)} />
+          <LiveBottomButtons
+            pickedIndex={picked}
+            onSitePicked={index => setPicked(index)}
+          />
         )}
       </BottomRow>
     </Container>
@@ -122,6 +127,41 @@ function LivePage({ postData }) {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, params }) => {
+    fontawesomeSubset(
+      {
+        solid: [
+          'circle-notch',
+          'chevron-up',
+          'chevron-down',
+          'spin',
+          'fa-spin',
+          'paperclip',
+          'play-circle',
+          'circle',
+          'comment-slash',
+          'burn',
+          'external-link-alt',
+          'euro-sign',
+          'heart',
+          'flag',
+          'rss',
+          'arrows-alt-h',
+          'home'
+        ],
+        regular: [
+          'comments',
+          'comment',
+          'heart',
+          'flag',
+          'clock',
+          'copyright',
+          'newspaper'
+        ],
+        brands: ['facebook-f', 'youtube', 'twitter', 'instagram']
+      },
+      'public/fonts/FontAwesome'
+    )
+
     store.dispatch(END)
     const response = await fetch(
       `${URLS.BASE}${URLS.ARTICLES_ENDPOINT}${params.id}?_embed=wp:featuredmedia,author&_fields=id,type,date,excerpt,slug,title,tags,acf`
