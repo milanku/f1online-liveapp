@@ -7,7 +7,7 @@ import onMobile from '../../../utils/onMobile'
 import Feed from '../../../components/Feed'
 import Chat from '../../../components/Chat'
 import LiveBottomButtons from '../../../components/LiveBottomButtons'
-import fontawesomeSubset from 'fontawesome-subset'
+//import fontawesomeSubset from 'fontawesome-subset'
 
 import styled from 'styled-components'
 
@@ -127,7 +127,7 @@ function LivePage({ postData }) {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, params }) => {
-    fontawesomeSubset(
+    /*fontawesomeSubset(
       {
         solid: [
           'circle-notch',
@@ -161,7 +161,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       },
       'public/fonts/FontAwesome'
     )
-
+*/
     store.dispatch(END)
     const response = await fetch(
       `${URLS.BASE}${URLS.ARTICLES_ENDPOINT}${params.id}?_embed=wp:featuredmedia,author&_fields=id,type,date,excerpt,slug,title,tags,acf`
