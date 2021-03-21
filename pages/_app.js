@@ -1,22 +1,22 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { wrapper } from '../redux/store/store'
+import { useSelector, useDispatch } from "react-redux";
+import { wrapper } from "../redux/store/store";
 
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
-import { darkTheme, lightTheme } from '../styles/Themes'
-import { THEMES } from '../constants/themes-names.js'
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "../styles/Themes";
+import { THEMES } from "../constants/themes-names.js";
 
-import './index.css'
+import "./index.css";
 
 const WIDTHS = {
   LEFT: {
-    PC: '250px',
-    MOB: '100%'
+    PC: "250px",
+    MOB: "100%",
   },
   FEED: {
-    PC: '600px',
-    MOB: '100%'
-  }
-}
+    PC: "600px",
+    MOB: "100%",
+  },
+};
 
 const GlobalStyle = createGlobalStyle`
     *,
@@ -51,23 +51,22 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
     background-color: ${props => props.theme.PAGE_BACK_COLOR}
   }
-`
+`;
 
 const Page = styled.div`
   width: calc(100% - ${WIDTHS.LEFT.PC});
   height: 100%;
-`
-
+`;
 
 function App({ Component, pageProps }) {
-  const theme = useSelector(({ theme }) => theme.theme)
+  const theme = useSelector(({ theme }) => theme.theme);
 
   return (
     <ThemeProvider theme={theme === THEMES.DARK ? darkTheme : lightTheme}>
       <GlobalStyle />
-        <Component {...pageProps} />
+      <Component {...pageProps} />
     </ThemeProvider>
-  )
+  );
 }
 
-export default wrapper.withRedux(App)
+export default wrapper.withRedux(App);

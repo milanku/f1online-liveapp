@@ -1,7 +1,9 @@
-import formatDate, { formatDateToHHmm } from '../../utils/dateFormatter.js'
-import EmbedContainer from 'react-oembed-container'
+import formatDate, { formatDateToHHmm } from "../../utils/dateFormatter.js";
+import EmbedContainer from "react-oembed-container";
 
-import styled from 'styled-components'
+import styled from "styled-components";
+
+import { useEffect } from "react";
 
 const Container = styled.div`
   margin: 12px 8px 0 5px;
@@ -17,7 +19,7 @@ const Container = styled.div`
     justify-content: flex-start;
   }
   .postTime {
-    font-family: 'HK Grotesk';
+    font-family: "HK Grotesk";
     font-size: 14px;
     font-weight: 600;
     width: 40px;
@@ -34,7 +36,7 @@ const Container = styled.div`
   }
 
   .text {
-    font-family: 'HK Grotesk';
+    font-family: "HK Grotesk";
     font-size: 14px;
     color: ${props => props.theme.TEXT_COLOR_MILD};
   }
@@ -101,10 +103,17 @@ const Container = styled.div`
       width: 450px;
     }
   }
-`
+`;
 
 function PostItem({ post }) {
-  const { date, acf } = post
+  const { date, acf } = post;
+
+  useEffect(() => {
+    console.log("INITIAL RENDER - useEffect", post.id);
+  }, []);
+
+  console.log("INITIAL RENDER - function", post.id);
+
   return (
     <Container>
       <div className="textContainer">
@@ -117,20 +126,20 @@ function PostItem({ post }) {
         <EmbedContainer markup={acf.embed} className="embed">
           <div
             className={
-              acf.embed.includes('//streamable.com') ||
-              acf.embed.includes('youtu')
-                ? 'isStreamable'
-                : ''
+              acf.embed.includes("//streamable.com") ||
+              acf.embed.includes("youtu")
+                ? "isStreamable"
+                : ""
             }
             dangerouslySetInnerHTML={{ __html: acf.embed }}
           />
         </EmbedContainer>
       ) : (
-        ''
+        ""
       )}
-      {acf.foto ? <img className="img" src={acf.foto}></img> : ''}
+      {acf.foto ? <img className="img" src={acf.foto}></img> : ""}
     </Container>
-  )
+  );
 }
 
-export default PostItem
+export default PostItem;

@@ -15,7 +15,7 @@ const defaultState = {
 };
 
 const liveReducer = (state = defaultState, action) => {
-  //console.log(action);
+  console.log("LITTLE", action);
   switch (action.type) {
     case TYPES.INITIALIZE:
       return {
