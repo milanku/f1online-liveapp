@@ -11,6 +11,7 @@ import {
 import { fetchLiveNewsArchive } from "../../redux/actions/liveActions";
 
 import FeedContent from "./FeedContent";
+import PartnerStripe from "./PartnerStripe";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 import * as S from "./styled";
 
@@ -64,6 +65,7 @@ function Feed({ acf }) {
       )} */}
       <S.FeedContainer>
         {/* <PartnerStripe state={state} /> */}
+        {onMobile() && <PartnerStripe />}
 
         <S.ButtonsRow>
           {ended ? (

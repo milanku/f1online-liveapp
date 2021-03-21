@@ -9,7 +9,7 @@ const WIDTHS = {
     PC: "65%",
     MOB: "100%",
   },
-  BOTTOM_ROW_HEIGHT: "50px",
+  BOTTOM_ROW_HEIGHT: "45px",
 };
 
 export const Container = styled.div`
