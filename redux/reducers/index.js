@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 //import panelReducer from "./panelReducer";
 import themeReducer from "./themeReducer";
 import liveReducer from "./liveReducer";
+import programmeReducer from "./programmeReducer";
 
 //import { persistReducer } from 'redux-persist'
 const { persistReducer } = require("redux-persist");
@@ -17,4 +18,5 @@ export default combineReducers({
   //panels: persistReducer(panelPersistConfig, panelReducer),
   theme: themeReducer,
   live: liveReducer,
+  programme: programmeReducer,
 });

@@ -1,4 +1,5 @@
 const THEME = {
+  name: "dark",
   LOGO_URL: "/images/logo-dark.png",
   ARR_IMG: "/images/arrow-dark.png",
   MOBILE_BURGER_BUT: "/images/bbutton-white.png",

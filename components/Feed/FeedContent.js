@@ -11,7 +11,7 @@ import InLivePartnerMessage from "./InLivePartnerMessage";
 import TrackedPanel, { TYPES } from "../Ads/TrackedPanel";
 import { POSITION } from "../Ads/positions";
 
-import { repCli, repImp } from "./gaUtils";
+import { reportClick, reportImp } from "./gaUtils";
 
 const Loader = () => {
   return [0, 1, 2, 3, 4, 5, 6].map((item, i) => (
@@ -19,7 +19,7 @@ const Loader = () => {
   ));
 };
 
-let repImps = new Set();
+let reportedImps = new Set();
 let loadedNodesIds = new Set();
 const AD_FREQUENCY = 10;
 
@@ -29,9 +29,6 @@ function FeedContent({ ended }) {
   const state = useSelector(state => state.live);
   const { news, isLoading, error, hasMore, adsData } = state;
 
-  console.log(adsData);
-
-  let counter = 0;
   let partnerMessages =
     adsData && adsData.content
       ? adsData.content.rendered.split("\n\n\n\n")
@@ -42,32 +39,29 @@ function FeedContent({ ended }) {
   };
 
   useEffect(() => {
-    /*if (
+    if (
       !isLoading &&
       hasMore &&
-      document.getElementById("scrollerContainer").clientHeight >=
-        document.getElementById("innerDataBlock").clientHeight
+      document.getElementsByClassName("infinite-scroll-component")[0]
+        .scrollHeight <=
+        document.getElementsByClassName(
+          "infinite-scroll-component__outerdiv"
+        )[0].clientHeight
     ) {
       fetchMore();
-    }*/
+    }
   }, [isLoading]);
 
-  const getNextPartnerMessage = () => {
-    let item = null;
-    let index = 0;
-    if (partnerMessages) {
-      index = counter % partnerMessages.length;
-      item = partnerMessages[counter % partnerMessages.length];
-      counter++;
-    }
-    return { message: item, index: index };
+  const report = (targetIndex, targetLink, partner_name) => {
+    reportedImps = reportImp({
+      link: targetLink,
+      index: targetIndex,
+      partner: partner_name,
+      reportedImpressions: reportedImps,
+    });
   };
 
-  const report = (title, targetIndex, targetLink) => {
-    repImps = repImp(title, targetIndex, targetLink, repImps);
-  };
-
-  const inject = item => {
+  let inject = item => {
     if (Math.abs(item.adIndex) % AD_FREQUENCY === 0) {
       if (Math.random() > 0.6) {
         return (
@@ -97,11 +91,17 @@ function FeedContent({ ended }) {
 
       // return null;
       return (
-        <TrackVisibility style={{ width: "100%" }} partialVisibility once>
+        <TrackVisibility style={{ width: "100%" }} partialVisibility>
           <InLivePartnerMessage
-            onClick={targetLink => repCli(adsData.title.rendered, targetLink)}
+            onClick={targetLink =>
+              reportClick({
+                link: targetLink,
+                index: pickedIndex,
+                partner: adsData.acf.partner_name,
+              })
+            }
             onImpression={(targetIndex, targetLink) =>
-              report(adsData.title.rendered, targetIndex, targetLink)
+              report(targetIndex, targetLink, adsData.acf.partner_name)
             }
             message={partnerMessages[pickedIndex]}
             index={pickedIndex}
@@ -144,8 +144,6 @@ function FeedContent({ ended }) {
     setCNodes(old => [...newNewItems, ...old, ...newOldItems]);
   }, [news]);
 
-  console.log("NODES", cNodes);
-
   return (
     <InfiniteScroll
       dataLength={news.length}
@@ -166,25 +164,10 @@ function FeedContent({ ended }) {
         </p>
       }
       style={{ padding: "0 10px" }}
-      // children={newsNodes}
       children={cNodes}
       loader={Loader()}
-    >
-      {/* <div id="innerDataBlock">
-        {news.map((item, index) => (
-          <div key={item.id}>
-            <FeedContentItem post={item} />
-            <div>{adsData && inject(item)}</div>
-          </div>
-        ))}
-        {isLoading ? (
-          Loader()
-        ) : (
-          <button onClick={fetchMore}>Načítať viac</button>
-        )}
-        <Divider height="10px" />
-      </div> */}
-    </InfiniteScroll>
+      scrollThreshold="200px"
+    />
   );
 }
 

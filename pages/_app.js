@@ -1,5 +1,8 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { wrapper } from "../redux/store/store";
+
+import { fetchProgramme } from "../redux/actions/programmeActions";
 
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/Themes";
@@ -59,7 +62,12 @@ const Page = styled.div`
 `;
 
 function App({ Component, pageProps }) {
+  const dispatch = useDispatch();
   const theme = useSelector(({ theme }) => theme.theme);
+
+  useEffect(() => {
+    dispatch(fetchProgramme());
+  }, []);
 
   return (
     <ThemeProvider theme={theme === THEMES.DARK ? darkTheme : lightTheme}>

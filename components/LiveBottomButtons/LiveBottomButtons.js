@@ -11,10 +11,18 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${props => props.theme.PAGE_BACK_COLOR};
+  z-index: 400;
+
+  @media only screen and (min-width: 1024px) {
+    display: none;
+  }
 `;
 
 const Button = styled.div`
-  width: 33%;
+  width: 33.5%;
+  &:last-of-type {
+    width: 33%;
+  }
   display: flex;
   justify-content: center;
   align-items: center;

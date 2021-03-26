@@ -21,6 +21,9 @@ const Container = styled.div`
   .postTime {
     font-family: "HK Grotesk";
     font-size: 14px;
+    @media only screen and (min-width: 1440px) {
+      font-size: 16px;
+    }
     font-weight: 600;
     width: 40px;
     flex-shrink: 0;
@@ -38,6 +41,9 @@ const Container = styled.div`
   .text {
     font-family: "HK Grotesk";
     font-size: 14px;
+    @media only screen and (min-width: 1440px) {
+      font-size: 16px;
+    }
     color: ${props => props.theme.TEXT_COLOR_MILD};
   }
   .embed {
@@ -103,16 +109,15 @@ const Container = styled.div`
       width: 450px;
     }
   }
+  @media only screen and (min-width: 1440px) {
+    .embed {
+      width: 550px;
+    }
+  }
 `;
 
 function PostItem({ post }) {
   const { date, acf } = post;
-
-  useEffect(() => {
-    console.log("INITIAL RENDER - useEffect", post.id);
-  }, []);
-
-  console.log("INITIAL RENDER - function", post.id);
 
   return (
     <Container>

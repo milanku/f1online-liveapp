@@ -1,35 +1,43 @@
 import ReactGA from "react-ga";
 
-export const repCli = (title, targetLink) => {
-  /*console.log("CLICKED", {
-    category: "online-click",
-    action: title.replace(" ", "-"),
-    label: targetLink,
-    nonInteraction: false,
-  });*/
-  ReactGA.event({
-    category: "online-click",
-    action: title.replace(" ", "-"),
-    label: targetLink,
-    nonInteraction: false,
-  });
-};
-
-export const repImp = (title, targetIndex, targetLink, reportedImps) => {
-  if (!reportedImps.has(targetIndex)) {
-    reportedImps.add(targetIndex);
+export const reportImp = ({ link, partner, index, reportedImpressions }) => {
+  if (!reportedImpressions.has(index)) {
+    reportedImpressions.add(index);
     // console.log("IMPRESSION", {
-    //   category: "online-impression",
-    //   action: `${targetIndex}`,
-    //   label: targetLink,
+    //   category: "Live-Feed-item-imp",
+    //   action: partner,
+    //   label: `${index + 1}.odkaz`,
     //   nonInteraction: true,
+    //   dimension1: link,
+    //   dimension2: window.innerWidth < 1024 ? "m" : "pc",
     // });
     ReactGA.event({
-      category: "online-impression",
-      action: `${targetIndex}`,
-      label: targetLink,
+      category: "Live-Feed-item-imp",
+      action: partner,
+      label: `${index + 1}.odkaz`,
       nonInteraction: true,
+      dimension1: link,
+      dimension2: window.innerWidth < 1024 ? "m" : "pc",
     });
   }
-  return reportedImps;
+  return reportedImpressions;
+};
+
+export const reportClick = ({ link, partner, index }) => {
+  // console.log("IMPRESSION CLICK", {
+  //   category: "Live-Feed-item-click",
+  //   action: partner,
+  //   label: `${index + 1}.odkaz`,
+  //   nonInteraction: false,
+  //   dimension1: link,
+  //   dimension2: window.innerWidth < 1024 ? "m" : "pc",
+  // });
+  ReactGA.event({
+    category: "Live-Feed-item-click",
+    action: partner,
+    label: `${index + 1}.odkaz`,
+    nonInteraction: false,
+    dimension1: link,
+    dimension2: window.innerWidth < 1024 ? "m" : "pc",
+  });
 };

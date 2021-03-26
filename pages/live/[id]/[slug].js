@@ -11,6 +11,7 @@ import LiveBottomButtons from "../../../components/LiveBottomButtons";
 
 import * as S from "./styled546895";
 import PartnerPanel from "../../../components/PartnerPanel";
+import PostMeta from "../../../components/PostMeta";
 
 function LivePage({ postData }) {
   const [picked, setPicked] = useState(0);
@@ -18,9 +19,14 @@ function LivePage({ postData }) {
   // console.log(postData)
   return (
     <S.Container>
+      <PostMeta key={postData.id + 100000} {...postData} />
       <S.TopRow>
         <S.PartnersPanel isPicked={picked === 0}>
-          <PartnerPanel />
+          <PartnerPanel
+            articleTitle={postData.title.rendered}
+            id={postData.id}
+            slug={postData.slug}
+          />
         </S.PartnersPanel>
         <S.FeedContainer isPicked={picked === 1}>
           <Feed acf={postData.acf} />
@@ -30,12 +36,10 @@ function LivePage({ postData }) {
         </S.ChatContainer>
       </S.TopRow>
       <S.BottomRow picked={picked}>
-        {onMobile() && (
-          <LiveBottomButtons
-            pickedIndex={picked}
-            onSitePicked={index => setPicked(index)}
-          />
-        )}
+        <LiveBottomButtons
+          pickedIndex={picked}
+          onSitePicked={index => setPicked(index)}
+        />
       </S.BottomRow>
     </S.Container>
   );

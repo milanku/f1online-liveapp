@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -74,8 +74,10 @@ function InLivePartnerMessage({
   partner_font_color,
   onImpression,
   onClick,
+  partner_name,
   isVisible,
 }) {
+  const [reported, setReported] = useState(false);
   const containerRef = useRef();
   const targetLink = message.split('href="')[1]
     ? message.split('href="')[1].split('"')[0]
@@ -99,7 +101,8 @@ function InLivePartnerMessage({
   }, []);
 
   useEffect(() => {
-    if (isVisible) {
+    if (!reported) {
+      setReported(true);
       onImpression(index, targetLink);
     }
   }, [isVisible]);

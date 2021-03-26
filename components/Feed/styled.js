@@ -8,20 +8,23 @@ export const FeedContainer = styled.div`
 export const LiveContainer = styled.div`
   height: calc(100vh - 60px);
   z-index: 4;
-
+  //height: auto;
+  height: ${props => `calc(100% - ${props.restHeight}px)`};
   @media only screen and (min-width: 1024px) {
     height: calc(100% - 37px);
   }
 
   .infinite-scroll-component__outerdiv {
     height: 100%;
+    //
+    overflow: auto;
   }
 `;
 
 export const ButtonsRow = styled.div`
   padding: 8px 10px;
   height: 21px;
-  box-shadow: -4px 4px 8px -8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 8px -8px rgba(0, 0, 0, 0.4);
 
   display: flex;
   flex-direction: row;

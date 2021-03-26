@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 const WIDTHS = {
   LEFT: {
-    PC: "250px",
+    PC: "320px",
+    PC_HD: "350px",
     MOB: "100%",
   },
   FEED: {
-    PC: "65%",
+    PC: "68%",
     MOB: "100%",
   },
   BOTTOM_ROW_HEIGHT: "45px",
@@ -25,7 +26,7 @@ export const TopRow = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
-
+  ${props => (props.overflowy ? "overflow-y: auto;" : "")}
   @media only screen and (min-width: 1024px) {
     height: 100%;
   }
@@ -45,10 +46,15 @@ export const PartnersPanel = styled.div`
   width: 100%;
   top: 0;
   left: ${props => (props.isPicked ? "0" : "100%")};
+  height: 100%;
+
   @media only screen and (min-width: 1024px) {
     width: ${WIDTHS.LEFT.PC};
     left: 0;
     height: 100%;
+  }
+  @media only screen and (min-width: 1680px) {
+    width: ${WIDTHS.LEFT.PC_HD};
   }
 `;
 
@@ -57,12 +63,17 @@ export const FeedContainer = styled.div`
   width: 100%;
   top: 0;
   left: ${props => (props.isPicked ? "0" : "100%")};
+  height: 100%;
   @media only screen and (min-width: 1024px) {
     position: absolute;
-    left: ${WIDTHS.LEFT.PC};
     top: 0;
+    left: ${WIDTHS.LEFT.PC};
     width: calc(${WIDTHS.FEED.PC} - ${WIDTHS.LEFT.PC});
     height: 100%;
+  }
+  @media only screen and (min-width: 1680px) {
+    left: ${WIDTHS.LEFT.PC_HD};
+    width: calc(${WIDTHS.FEED.PC} - ${WIDTHS.LEFT.PC_HD});
   }
 `;
 

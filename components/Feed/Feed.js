@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { usePageVisibility } from "react-page-visibility";
@@ -14,8 +14,14 @@ import FeedContent from "./FeedContent";
 import PartnerStripe from "./PartnerStripe";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 import * as S from "./styled";
+import TrackVisibility from "react-on-screen";
 
 function Feed({ acf }) {
+  const stripeRef = useRef();
+  const buttonsRef = useRef();
+  const [butsHeight, setButsHeight] = useState(0);
+  const [stripeHeight, setStripeHeight] = useState(0);
+
   const dispatch = useDispatch();
   const isVisible = usePageVisibility();
 
@@ -39,16 +45,18 @@ function Feed({ acf }) {
     } else {
       dispatch(startLiveAutofetch());
     }
+
+    setButsHeight(buttonsRef.current.clientHeight);
+    setStripeHeight(stripeRef.current.clientHeight);
+
     return () => onBlur();
   }, []);
 
   const onBlur = () => {
-    console.log("ON BLUR");
     dispatch(pauseLiveAutofetch());
   };
 
   const onFocus = () => {
-    console.log("ON FOCUS");
     !ended && dispatch(startLiveAutofetch());
   };
 
@@ -57,25 +65,30 @@ function Feed({ acf }) {
     return () => onBlur();
   }, [isVisible]);
 
-  //if (!state.isLoading) console.log(state);
   return (
     <>
-      {/* {!state.isLoading && (
-        <img style={{ width: '100%' }} src={state.adsData.acf.partner_car} />
-      )} */}
       <S.FeedContainer>
-        {/* <PartnerStripe state={state} /> */}
-        {onMobile() && <PartnerStripe />}
-
-        <S.ButtonsRow>
-          {ended ? (
-            <span>Live sa skončil</span>
-          ) : (
-            <S.LiveIcon> Live</S.LiveIcon>
+        <div ref={stripeRef}>
+          {onMobile() && (
+            <TrackVisibility style={{ width: "100%" }} partialVisibility once>
+              <PartnerStripe />
+            </TrackVisibility>
           )}
-          <ThemeSwitcher />
-        </S.ButtonsRow>
-        <S.LiveContainer id="scrollerContainer">
+        </div>
+        <div ref={buttonsRef}>
+          <S.ButtonsRow>
+            {ended ? (
+              <span>Live sa skončil</span>
+            ) : (
+              <S.LiveIcon> Live</S.LiveIcon>
+            )}
+            <ThemeSwitcher />
+          </S.ButtonsRow>
+        </div>
+        <S.LiveContainer
+          restHeight={stripeHeight + butsHeight}
+          id="scrollerContainer"
+        >
           <FeedContent ended={ended} />
         </S.LiveContainer>
       </S.FeedContainer>
