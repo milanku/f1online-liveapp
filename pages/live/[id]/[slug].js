@@ -9,7 +9,7 @@ import Chat from "../../../components/Chat";
 import LiveBottomButtons from "../../../components/LiveBottomButtons";
 //import fontawesomeSubset from 'fontawesome-subset'
 
-import * as S from "./styled546895";
+import * as S from "../../../styles/Themes/pages/live";
 import PartnerPanel from "../../../components/PartnerPanel";
 import PostMeta from "../../../components/PostMeta";
 
