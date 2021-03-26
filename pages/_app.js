@@ -61,6 +61,9 @@ const Page = styled.div`
   height: 100%;
 `;
 
+const trackingId = "UA-166048655-1";
+ReactGA.initialize(trackingId);
+
 function App({ Component, pageProps }) {
   const dispatch = useDispatch();
   const theme = useSelector(({ theme }) => theme.theme);
