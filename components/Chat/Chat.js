@@ -41,7 +41,7 @@ function Chat({ isOpened }) {
         <iframe
           height="100%"
           width="100%"
-          src={`https://www.youtube.com/live_chat?v=o0ollig71T4&embed_domain=f1online.sk`}
+          src={`https://www.youtube.com/live_chat?v=o0ollig71T4&embed_domain=live.f1online.sk`}
           // src={`https://www.youtube.com/live_chat?v=o0ollig71T4&embed_domain=localhost`}
           //src={`https://www.youtube.com/live_chat?v=o0ollig71T4&embed_domain=192.168.1.14`}
           //src={`https://www.youtube.com/live_chat?v=o0ollig71T4&embed_domain=78.99.122.198`}
