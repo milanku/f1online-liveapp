@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { wrapper } from "../redux/store/store";
 
 import { fetchProgramme } from "../redux/actions/programmeActions";
-
+import ReactGA from "react-ga";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/Themes";
 import { THEMES } from "../constants/themes-names.js";
@@ -66,6 +66,7 @@ function App({ Component, pageProps }) {
   const theme = useSelector(({ theme }) => theme.theme);
 
   useEffect(() => {
+    ReactGA.pageview(window.location.pathname);
     dispatch(fetchProgramme());
   }, []);
 
